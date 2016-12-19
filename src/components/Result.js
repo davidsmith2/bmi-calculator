@@ -23,7 +23,7 @@ class Result extends React.Component {
     return '--.-';
   }
   
-  getDescription(formState) {
+  getDescription() {
     const BMI = this.calculateBMI();
     if (this.validateForm()) {
       if (BMI < 18.5) {

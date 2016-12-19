@@ -1,4 +1,5 @@
 import React from 'react';
+import {fromJS} from 'immutable';
 
 import MetricForm from './MetricForm';
 import Nav from './Nav';
@@ -11,14 +12,23 @@ import {calculators, validators} from '../utils';
 export default class AppBody extends React.Component {
   constructor(props) {
     super(props);
-    this.state = this.__getInitialState__('standard');
+    this.state = this.__getInitialState__();
   }
   
-  __getInitialState__(mode) {
+  __getInitialState__(mode = 'standard') {
     return {
       mode: mode,
-      standard: {lb: '', ft: '', in: ''},
-      metric: {kg: '', cm: ''}
+      modes: {
+        standard: {
+          lb: '', 
+          ft: '', 
+          in: ''
+        },
+        metric: {
+          kg: '',
+          cm: ''
+        }
+      }
     };
   }
 
@@ -37,7 +47,7 @@ export default class AppBody extends React.Component {
         </div>
         <div style={styles.appBody.output}>
           <Result 
-            formState={this.state[this.state.mode]} 
+            formState={this.state.modes[this.state.mode]} 
             validator={validators[this.state.mode]}
             calculator={calculators[this.state.mode]}
           />
@@ -48,13 +58,19 @@ export default class AppBody extends React.Component {
   
   handleModeChange(event) {
     event.preventDefault();
-    this.setState(this.__getInitialState__(event.target.href.split('#')[1]));
+    const mode = event.target.href.split('#')[1];
+    this.setState(this.__getInitialState__(mode));
   }
 
   handleInputChange(event) {
     event.preventDefault();
-    this.state[this.state.mode][event.target.name.split('.')[1]] = Number(event.target.value);
-    this.forceUpdate();
+    const fieldName = event.target.name.split('.')[1];
+    const fieldValue = Number(event.target.value);
+    const data = fromJS(this.state).updateIn(
+      ['modes', this.state.mode, fieldName],
+      (val) => fieldValue
+    );
+    this.setState(data.toJS());
   }
   
 }
