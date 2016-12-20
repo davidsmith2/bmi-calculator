@@ -10,6 +10,16 @@ import styles from '../styles';
 import {calculators, validators} from '../utils';
 
 export default class AppBody extends React.Component {
+  static childContextTypes = {
+    onInputChange: React.PropTypes.func.isRequired
+  };
+
+  getChildContext() {
+    return {
+      onInputChange: this.handleInputChange
+    };
+  }
+
   constructor(props) {
     super(props);
     this.state = this.__getInitialState__();
@@ -35,17 +45,11 @@ export default class AppBody extends React.Component {
   }
 
   render() {
-    let form;
-    if (this.state.mode === 'standard') {
-      form = <StandardForm onInputChange={this.handleInputChange} />
-    } else {
-      form = <MetricForm onInputChange={this.handleInputChange} />
-    }
     return(
       <div style={styles.appBody.container}>
         <div style={styles.appBody.input}>
           <Nav onChange={this.handleModeChange} />
-          {form}
+          {(this.state.mode === 'standard') ? <StandardForm /> : <MetricForm />}
         </div>
         <div style={styles.appBody.output}>
           <Result 

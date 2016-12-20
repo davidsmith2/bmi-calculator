@@ -1,22 +1,24 @@
 import React from 'react';
 
+import Input from './Input';
+
 const MetricForm = (props) => {
   return (
     <div>
       <form>
         <fieldset>
           <legend>Weight</legend>
-          <label>
-            <input name="weight.kg" onChange={props.onInputChange} />
-            kg
-          </label>
+          <Input
+            name="weight.kg"
+            label="kg"
+          />
         </fieldset>
         <fieldset>
           <legend>Height</legend>
-          <label>
-            <input name="height.cm" onChange={props.onInputChange} />
-            cm
-          </label>
+          <Input
+            name="height.cm"
+            label="cm"
+          />
         </fieldset>
       </form>
     </div>
