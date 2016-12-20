@@ -1,7 +1,5 @@
 import React from 'react';
 
-import {calculators, validators} from '../utils';
-
 class Result extends React.Component {
   render() {
     return (
@@ -40,11 +38,11 @@ class Result extends React.Component {
   }
 
   validateForm() {
-    return this.props.validator(this.props.formState, validators.validate);
+    return this.props.validator(this.props.formState);
   }
 
   calculateBMI() {
-    return this.props.calculator(this.props.formState, calculators.calculate);
+    return this.props.calculator(this.props.formState);
   }
   
 }

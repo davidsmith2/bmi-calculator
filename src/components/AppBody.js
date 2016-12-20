@@ -13,6 +13,8 @@ export default class AppBody extends React.Component {
   constructor(props) {
     super(props);
     this.state = this.__getInitialState__();
+    this.handleModeChange = this.handleModeChange.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
   
   __getInitialState__(mode = 'standard') {
@@ -35,14 +37,14 @@ export default class AppBody extends React.Component {
   render() {
     let form;
     if (this.state.mode === 'standard') {
-      form = <StandardForm onInputChange={this.handleInputChange.bind(this)} />
+      form = <StandardForm onInputChange={this.handleInputChange} />
     } else {
-      form = <MetricForm onInputChange={this.handleInputChange.bind(this)} />
+      form = <MetricForm onInputChange={this.handleInputChange} />
     }
     return(
       <div style={styles.appBody.container}>
         <div style={styles.appBody.input}>
-          <Nav onChange={this.handleModeChange.bind(this)} />
+          <Nav onChange={this.handleModeChange} />
           {form}
         </div>
         <div style={styles.appBody.output}>
