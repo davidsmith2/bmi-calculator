@@ -1,5 +1,6 @@
 import React from 'react';
 import {fromJS} from 'immutable';
+import {partial} from 'lodash';
 
 import MetricForm from './MetricForm';
 import Nav from './Nav';
@@ -7,7 +8,7 @@ import Result from './Result';
 import StandardForm from './StandardForm';
 
 import styles from '../styles';
-import {calculators, validators} from '../utils';
+import {calculateBMI, validateForm} from '../utils';
 
 export default class AppBody extends React.Component {
   static childContextTypes = {
@@ -23,60 +24,53 @@ export default class AppBody extends React.Component {
   constructor(props) {
     super(props);
     this.state = this.__getInitialState__();
-    this.handleModeChange = this.handleModeChange.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
   }
   
-  __getInitialState__(mode = 'standard') {
+  __getInitialState__() {
     return {
-      mode: mode,
       modes: {
         standard: {
-          lb: '', 
-          ft: '', 
-          in: ''
+          lb: null, 
+          ft: null, 
+          in: null
         },
         metric: {
-          kg: '',
-          cm: ''
+          kg: null,
+          cm: null
         }
       }
     };
   }
 
   render() {
+    this.currentMode = this.props.params.mode || 'standard';
+    this.currentState = this.state.modes[this.currentMode];
     return(
       <div style={styles.appBody.container}>
         <div style={styles.appBody.input}>
-          <Nav onChange={this.handleModeChange} />
-          {(this.state.mode === 'standard') ? <StandardForm /> : <MetricForm />}
+          <Nav route={this.currentMode} />
+          {(this.currentMode === 'standard') ? <StandardForm /> : <MetricForm />}
         </div>
         <div style={styles.appBody.output}>
-          <Result 
-            formState={this.state.modes[this.state.mode]} 
-            validator={validators[this.state.mode]}
-            calculator={calculators[this.state.mode]}
+          <Result
+            calculateBMI={partial(calculateBMI, this.currentState, this.currentMode)}
+            validateForm={partial(validateForm, this.currentState)}
           />
         </div>
       </div>
     );
   }
   
-  handleModeChange(event) {
-    event.preventDefault();
-    const mode = event.target.href.split('#')[1];
-    this.setState(this.__getInitialState__(mode));
-  }
-
   handleInputChange(event) {
     event.preventDefault();
     const fieldName = event.target.name.split('.')[1];
     const fieldValue = Number(event.target.value);
     const data = fromJS(this.state).updateIn(
-      ['modes', this.state.mode, fieldName],
-      (val) => fieldValue
+      ['modes', this.currentMode, fieldName],
+      (val) => fieldValue || null
     );
     this.setState(data.toJS());
   }
-  
+
 }

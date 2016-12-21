@@ -1,15 +1,14 @@
 import React from 'react';
 
 import AppHeader from './components/AppHeader';
-import AppBody from './components/AppBody';
 import AppFooter from './components/AppFooter';
 import './App.css';
 
-const App = () => {
+const App = (props) => {
   return (
     <div>
       <AppHeader />
-      <AppBody />
+      {props.children}
       <AppFooter />
     </div>
   );

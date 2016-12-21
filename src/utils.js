@@ -1,44 +1,31 @@
 import {
   isEqual,
+  isNull,
   keys,
-  pickBy,
-  identity
+  pickBy
 } from 'lodash';
 
-const validate = (state, validKeys) => {
+export const calculateBMI = (state, mode) => {
+  let kg;
+  let m;
+  if (mode === 'standard') {
+    kg = state.lb * 0.45;
+    m = ((state.ft * 12) + state.in) * 0.025;
+  }
+  if (mode === 'metric') {
+    kg = state.kg;
+    m = state.cm / 100;
+  }
+  return (kg / Math.pow(m, 2)).toFixed(1);
+};
+
+export const validateForm = (state) => {
   return isEqual(
     keys(
-      pickBy(state, identity)
+      pickBy(
+        state, (val) => !isNull(val)
+      )
     ),
-    validKeys
+    keys(state)
   );
 };
-
-const validators = {
-  standard: (state) => {
-    return validate(state, ['lb', 'ft', 'in']);
-  },
-  metric: (state) => {
-    return validate(state, ['kg', 'cm']);
-  }
-};
-
-const calculate = (weightInKilograms, heightInMeters) => {
-  return (weightInKilograms / Math.pow(heightInMeters, 2)).toFixed(1);
-};
-
-const calculators = {
-  standard: (state) => {
-    const weightInKilograms = state.lb * 0.45;
-    const heightInMeters = ((state.ft * 12) + state.in) * 0.025;
-    return calculate(weightInKilograms, heightInMeters);
-  },
-  metric: (state) => {
-    const weightInKilograms = Number(state.kg);
-    const heightInMeters = state.cm / 100;
-    return calculate(weightInKilograms, heightInMeters);
-  }
-};
-
-export {validators};
-export {calculators};

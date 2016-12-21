@@ -1,14 +1,16 @@
 import React from 'react';
 
+import NavLink from './NavLink';
+
 const Nav = (props) => {
   return (
     <div>
       <ul>
         <li>
-          <a href="#standard" onClick={props.onChange}>Standard</a>
+          <NavLink to="/standard" label="Standard" route={props.route} />
         </li>
         <li>
-          <a href="#metric" onClick={props.onChange}>Metric</a>
+          <NavLink to="/metric" label="Metric" route={props.route} />
         </li>
       </ul>
     </div>

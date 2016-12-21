@@ -15,15 +15,15 @@ class Result extends React.Component {
   }
   
   getValue() {
-    if (this.validateForm()) {
-      return this.calculateBMI();
+    if (this.props.validateForm()) {
+      return this.props.calculateBMI();
     }
     return '--.-';
   }
   
   getDescription() {
-    const BMI = this.calculateBMI();
-    if (this.validateForm()) {
+    const BMI = this.props.calculateBMI();
+    if (this.props.validateForm()) {
       if (BMI < 18.5) {
         return 'Underweight';
       } else if (BMI < 25) {
@@ -37,14 +37,6 @@ class Result extends React.Component {
     return '';
   }
 
-  validateForm() {
-    return this.props.validator(this.props.formState);
-  }
-
-  calculateBMI() {
-    return this.props.calculator(this.props.formState);
-  }
-  
 }
 
 export default Result;
