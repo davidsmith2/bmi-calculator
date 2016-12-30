@@ -6,6 +6,7 @@ const Input = (props, context) => {
         <input
         	name={props.name}
         	onChange={context.onInputChange}
+          value={props.value || ''}
         />
         {props.label}
       </label>

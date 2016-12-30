@@ -11,6 +11,7 @@ const MetricForm = (props) => {
           <Input
             name="weight.kg"
             label="kg"
+            value={props.currentState.kg}
           />
         </fieldset>
         <fieldset>
@@ -18,6 +19,7 @@ const MetricForm = (props) => {
           <Input
             name="height.cm"
             label="cm"
+            value={props.currentState.cm}
           />
         </fieldset>
       </form>
