@@ -6,8 +6,9 @@ import MetricForm from './MetricForm';
 import Nav from './Nav';
 import Result from './Result';
 import StandardForm from './StandardForm';
+
 import styles from '../styles';
-import {calculateBMI, validateForm, navigate} from '../utils';
+import {calculateBMI, validateForm} from '../utils';
 
 export default class AppBody extends React.Component {
   static childContextTypes = {
@@ -22,28 +23,24 @@ export default class AppBody extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = this.__getInitialState__(props.location.query);
+    this.state = this.__getInitialState__();
     this.handleInputChange = this.handleInputChange.bind(this);
   }
   
-  __getInitialState__(query) {
+  __getInitialState__() {
     return {
       modes: {
         standard: {
-          lb: Number(query.lb) || null,
-          ft: Number(query.ft) || null,
-          in: Number(query.in) || null
+          lb: null, 
+          ft: null, 
+          in: null
         },
         metric: {
-          kg: Number(query.kg) || null,
-          cm: Number(query.cm) || null
+          kg: null,
+          cm: null
         }
       }
     };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.state = this.__getInitialState__(nextProps.location.query);
   }
 
   render() {
@@ -53,7 +50,7 @@ export default class AppBody extends React.Component {
       <div style={styles.appBody.container}>
         <div style={styles.appBody.input}>
           <Nav route={this.currentMode} />
-          {(this.currentMode === 'standard') ? <StandardForm currentState={this.currentState} /> : <MetricForm currentState={this.currentState} />}
+          {(this.currentMode === 'standard') ? <StandardForm /> : <MetricForm />}
         </div>
         <div style={styles.appBody.output}>
           <Result
@@ -73,11 +70,7 @@ export default class AppBody extends React.Component {
       ['modes', this.currentMode, fieldName],
       (val) => fieldValue || null
     );
-    this.setState((prevState, props) => {
-      const nextState = data.toJS();
-      navigate(nextState.modes[this.currentMode], this.currentMode);
-      return nextState;
-    });
+    this.setState(data.toJS());
   }
 
 }

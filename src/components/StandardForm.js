@@ -11,7 +11,6 @@ const StandardForm = (props) => {
           <Input
             name="weight.lb"
             label="lb"
-            value={props.currentState.lb}
           />
         </fieldset>
         <fieldset>
@@ -19,12 +18,10 @@ const StandardForm = (props) => {
           <Input
             name="height.ft"
             label="ft"
-            value={props.currentState.ft}
           />
           <Input
             name="height.in"
             label="in"
-            value={props.currentState.in}
           />
         </fieldset>
       </form>

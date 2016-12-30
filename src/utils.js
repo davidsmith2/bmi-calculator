@@ -4,8 +4,6 @@ import {
   keys,
   pickBy
 } from 'lodash';
-import {browserHistory} from 'react-router';
-import {encode} from 'querystring';
 
 export const calculateBMI = (state, mode) => {
   let kg;
@@ -30,12 +28,4 @@ export const validateForm = (state) => {
     ),
     keys(state)
   );
-};
-
-export const navigate = (state, mode) => {
-    const query = encode(state);
-    const path = `/${mode}?${query}`;
-    if (validateForm(state)) {
-      browserHistory.push(path);
-    }
 };
