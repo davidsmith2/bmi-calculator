@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {
-	hashHistory, 
+	browserHistory, 
 	IndexRoute,
 	Route,
 	Router
@@ -12,7 +12,7 @@ import AppBody from './components/AppBody';
 import './index.css';
 
 ReactDOM.render(
-  <Router history={hashHistory}>
+  <Router history={browserHistory}>
   	<Route path="/" component={App}>
   		<IndexRoute component={AppBody} />
 		<Route path="/:mode" component={AppBody} />
