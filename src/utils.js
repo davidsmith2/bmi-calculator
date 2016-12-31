@@ -34,7 +34,7 @@ export const validateForm = (state) => {
 
 export const navigate = (state, mode) => {
     const query = encode(state);
-    const path = `/${mode}?${query}`;
+    const path = `${process.env.PUBLIC_URL}/${mode}?${query}`;
     if (validateForm(state)) {
       browserHistory.push(path);
     }
