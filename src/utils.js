@@ -32,11 +32,9 @@ export const validateForm = (state) => {
   );
 };
 
-export const CONTEXT_ROOT = '/bmi-calculator';
-
 export const navigate = (state, mode) => {
     const query = encode(state);
-    const path = `${CONTEXT_ROOT}/${mode}?${query}`;
+    const path = `/${mode}?${query}`;
     if (validateForm(state)) {
       browserHistory.push(path);
     }
